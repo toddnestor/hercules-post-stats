@@ -3,8 +3,12 @@ jQuery(document).ready(function($) {
   var startTime = new Date().getTime();
   startTime = startTime / 1000;
   var startTimeFromWP = parseInt( $('#herc_writing_time_input').val() );
+  startTimeFromWP = startTimeFromWP || 0;
+  
+  console.log( 'startTime: ' + startTimeFromWP );
   
   var ConvertSecondsToHHMMSS = function ( seconds ) {
+    seconds = parseInt( seconds );
     var CurrentTime = '';
     
     if ( seconds >= 3600 )
@@ -58,6 +62,8 @@ jQuery(document).ready(function($) {
     var passedTime = Math.floor( timeNow - origStartTime );
     
     var totalTime = passedTime + startTimeFromWP;
+    
+    totalTime = parseInt( totalTime );
     
     var CurrentTime = ConvertSecondsToHHMMSS( totalTime );
     
@@ -132,7 +138,7 @@ jQuery(document).ready(function($) {
     StrippedString = replaceEmoticons( StrippedString );
     StrippedString = StrippedString.trim();
     StrippedString = StrippedString.replace(/\s{2,}/g, ' ');
-    var WordCount = StrippedString.split( ' ' ).length;
+    var WordCount = StrippedString.split( ' ' ).length - 1;
     
     var WordsPerMinute = 200;
     
@@ -184,6 +190,10 @@ jQuery(document).ready(function($) {
       }
       
       ReadingTime += Seconds;
+    }
+    else
+    {
+      ReadingTime += "00";
     }
     
     jQuery('#herc_word_count').html( WordCount );
